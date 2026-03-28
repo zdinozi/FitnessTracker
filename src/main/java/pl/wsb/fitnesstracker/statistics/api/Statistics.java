@@ -9,7 +9,7 @@ import lombok.ToString;
 import pl.wsb.fitnesstracker.user.api.User;
 
 @Entity
-@Table(name = "statistics")
+@Table(name = "Statistics")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
@@ -20,8 +20,8 @@ public class Statistics {
     @Nullable
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    @OneToOne(optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(name = "total_trainings", nullable = false)

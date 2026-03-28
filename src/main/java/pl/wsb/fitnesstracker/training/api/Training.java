@@ -37,7 +37,7 @@ public class Training {
     @Column(name = "activity_type", nullable = false)
     private ActivityType activityType;
 
-    @Column(nullable = false)
+    @Column(name = "distance", nullable = false)
     private double distance;
 
     @Column(name = "average_speed", nullable = false)
