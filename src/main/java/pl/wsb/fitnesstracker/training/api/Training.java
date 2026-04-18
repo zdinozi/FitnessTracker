@@ -23,7 +23,7 @@ public class Training {
     @Nullable
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
