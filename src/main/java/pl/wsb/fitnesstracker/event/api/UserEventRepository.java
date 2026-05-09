@@ -1,4 +1,4 @@
-package pl.wsb.fitnesstracker.event;
+package pl.wsb.fitnesstracker.event.api;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

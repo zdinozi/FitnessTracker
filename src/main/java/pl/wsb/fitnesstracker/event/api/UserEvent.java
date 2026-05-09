@@ -1,4 +1,4 @@
-package pl.wsb.fitnesstracker.event;
+package pl.wsb.fitnesstracker.event.api;
 
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;

@@ -77,8 +77,7 @@ class DatabaseSchemaTest {
         try (ResultSet rs = meta.getTables(conn.getCatalog(), null, "%", new String[]{"TABLE"})) {
             while (rs.next()) {
                 String schema = rs.getString("TABLE_SCHEM");
-                if (schema == null) continue;
-                if (!"PUBLIC".equalsIgnoreCase(schema)) continue;
+                if (schema != null && !"PUBLIC".equalsIgnoreCase(schema)) continue;
                 String name = rs.getString("TABLE_NAME");
                 if (expectedName.equalsIgnoreCase(name)) {
                     return true;
