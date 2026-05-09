@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.wsb.fitnesstracker.training.api.Training;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
 import pl.wsb.fitnesstracker.user.api.User;
+import pl.wsb.fitnesstracker.event.api.EventRepository;
+import pl.wsb.fitnesstracker.event.api.Event;
+import java.time.LocalDate;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -36,6 +39,8 @@ class InitialDataLoader {
 
     private final JpaRepository<Training, Long> trainingRepository;
 
+    private final EventRepository eventRepository;
+
     @EventListener
     @Transactional
     @SuppressWarnings({"squid:S1854", "squid:S1481", "squid:S1192", "unused"})
@@ -47,6 +52,8 @@ class InitialDataLoader {
         List<User> sampleUserList = generateSampleUsers();
         List<Training> sampleTrainingList = generateTrainingData(sampleUserList);
 
+        List<Event> events = eventRepository.findUpcoming(LocalDate.now());
+        System.out.println("Nadchodzące eventy: " + events.size());
 
         log.info("Finished loading initial data");
     }
@@ -163,7 +170,7 @@ class InitialDataLoader {
     }
 
     private void verifyDependenciesAutowired() {
-        if (isNull(userRepository)) {
+        if (isNull(userRepository) || isNull(trainingRepository) || isNull(eventRepository)) {
             throw new IllegalStateException("Initial data loader was not autowired correctly " + this);
         }
     }
