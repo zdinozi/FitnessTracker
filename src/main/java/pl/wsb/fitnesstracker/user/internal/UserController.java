@@ -63,10 +63,10 @@ class UserController {
                 .toList();
     }
 
-    @GetMapping("/older/{time}")
-    public List<UserDto> searchUsersOlderThan(@PathVariable("time") LocalDate time) {
+    @GetMapping("/older/{age}")
+    public List<UserDto> searchUsersOlderThan(@PathVariable("age") Integer age) {
         return userProvider.findAllUsers().stream()
-                .filter(user -> user.getBirthdate().isBefore(time))
+                .filter(user -> LocalDate.now().getYear() - user.getBirthdate().getYear() > age)
                 .map(userMapper::toUserDto)
                 .toList();
     }
