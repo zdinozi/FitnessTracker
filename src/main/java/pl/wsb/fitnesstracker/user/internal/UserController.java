@@ -46,5 +46,11 @@ class UserController {
                 .orElseThrow(() -> new IllegalArgumentException("User with ID " + id + " not found"));
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable("id") Long id) {
+        userService.deleteUser(id);
+    }
 
-}
+
+    }
