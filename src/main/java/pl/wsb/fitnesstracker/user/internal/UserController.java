@@ -71,4 +71,10 @@ class UserController {
                 .toList();
     }
 
-}
+    @PutMapping("/{userId}")
+    public UserDto updateUser(@PathVariable("userId") Long userId, @RequestBody UserDto userDto) {
+        User updatedUser = userService.updateUser(userId, userMapper.toEntity(userDto));
+        return userMapper.toUserDto(updatedUser);
+    }
+
+    }

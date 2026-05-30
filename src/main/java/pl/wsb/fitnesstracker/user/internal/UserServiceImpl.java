@@ -3,6 +3,7 @@ package pl.wsb.fitnesstracker.user.internal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.wsb.fitnesstracker.user.api.User;
 import pl.wsb.fitnesstracker.user.api.UserProvider;
 import pl.wsb.fitnesstracker.user.api.UserService;
@@ -54,4 +55,15 @@ class UserServiceImpl implements UserService, UserProvider {
                 .toList();
     }
 
+    @Override
+    @Transactional
+    public User updateUser(final Long userId, final User user) {
+        log.info("Updating User with ID {}", userId);
+        return userRepository.findById(userId)
+                .map(existingUser -> {
+                    existingUser.setEmail(user.getEmail());
+                    return userRepository.save(existingUser);
+                })
+                .orElseThrow(() -> new IllegalArgumentException("User with ID " + userId + " not found"));
+    }
     }
