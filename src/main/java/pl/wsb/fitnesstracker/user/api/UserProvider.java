@@ -30,4 +30,12 @@ public interface UserProvider {
      */
     List<User> findAllUsers();
 
+    /**
+     * Searches for users whose email contains the given fragment (case-insensitive).
+     *
+     * @param email The email fragment to search for
+     * @return A list of users matching the search criteria
+     */
+    List<User> searchUsersByEmail(String email);
+
 }

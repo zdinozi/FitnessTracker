@@ -47,4 +47,11 @@ class UserServiceImpl implements UserService, UserProvider {
         userRepository.deleteById(userId);
     }
 
+    @Override
+    public List<User> searchUsersByEmail(final String email) {
+        return userRepository.findAll().stream()
+                .filter(user -> user.getEmail().toLowerCase().contains(email.toLowerCase()))
+                .toList();
+    }
+
     }

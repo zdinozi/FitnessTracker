@@ -8,12 +8,9 @@ import pl.wsb.fitnesstracker.user.api.UserDto;
 import pl.wsb.fitnesstracker.user.api.UserProvider;
 import pl.wsb.fitnesstracker.user.api.UserService;
 
+import java.time.LocalDate;
 import java.util.List;
 
-/**
- * UserController is responsible for handling HTTP requests related to user operations.
- * It provides endpoints for retrieving and creating users.
- */
 @RestController
 @RequestMapping("/v1/users")
 @RequiredArgsConstructor
@@ -27,13 +24,20 @@ class UserController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto addUser(@RequestBody UserDto userDto) throws InterruptedException {
+    public UserDto addUser(@RequestBody UserDto userDto) {
         User user = userService.createUser(userMapper.toEntity(userDto));
         return userMapper.toUserDto(user);
     }
 
     @GetMapping
-    public List<UserNameDto> getUsers() {
+    public List<UserDto> getUsers() {
+        return userProvider.findAllUsers().stream()
+                .map(userMapper::toUserDto)
+                .toList();
+    }
+
+    @GetMapping("/simple")
+    public List<UserNameDto> getUsersSimple() {
         return userProvider.findAllUsers().stream()
                 .map(userMapper::toUserNameDto)
                 .toList();
@@ -52,5 +56,19 @@ class UserController {
         userService.deleteUser(id);
     }
 
-
+    @GetMapping("/email")
+    public List<UserEmailDto> searchUsersByEmail(@RequestParam("email") String email) {
+        return userProvider.searchUsersByEmail(email).stream()
+                .map(userMapper::toUserEmailDto)
+                .toList();
     }
+
+    @GetMapping("/older/{time}")
+    public List<UserDto> searchUsersOlderThan(@PathVariable("time") LocalDate time) {
+        return userProvider.findAllUsers().stream()
+                .filter(user -> user.getBirthdate().isBefore(time))
+                .map(userMapper::toUserDto)
+                .toList();
+    }
+
+}

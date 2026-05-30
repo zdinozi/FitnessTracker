@@ -22,4 +22,8 @@ class UserMapper {
                 userDto.birthdate(),
                 userDto.email());
     }
+
+    UserEmailDto toUserEmailDto(User user) {
+        return new UserEmailDto(user.getId(), user.getEmail());
+    }
 }
