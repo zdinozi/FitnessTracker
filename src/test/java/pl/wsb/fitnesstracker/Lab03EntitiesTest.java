@@ -81,6 +81,14 @@ class Lab03EntitiesTest {
         }
     }
 
+    @Test
+    void achievementTableHasUserForeignKey() throws Exception {
+        try (Connection conn = dataSource.getConnection()) {
+            Set<String> cols = tableColumns(conn, "achievement");
+            assertThat(cols).contains("id", "user_id");
+        }
+    }
+
     private boolean tableExists(Connection conn, String expectedName) throws SQLException {
         DatabaseMetaData meta = conn.getMetaData();
         try (ResultSet rs = meta.getTables(conn.getCatalog(), null, "%", new String[]{"TABLE"})) {
